@@ -30,14 +30,23 @@ int main(int argc, char *argv[]) {
   uint32_t* arr = (uint32_t*)malloc(sizeof(uint32_t) * arr_size);
   uint32_t* test_arr = (uint32_t*)malloc(sizeof(uint32_t) * arr_size);
 
+  uint64_t merge_time = 0;
+  uint64_t qsort_time = 0;
+
   for (size_t checks = 1; checks <= num_checks; checks++) {
     printf("Check %d\n", checks);
     for (size_t i = 0; i < arr_size; i++) {
       arr[i] = test_arr[i] = rand();
     }
 
+    clock_t start_time = clock();
     merge_sort(arr, arr + arr_size);
+    clock_t merge_end = clock();
     qsort(test_arr, arr_size, sizeof(uint32_t), uint32_t_compare);
+    clock_t qsort_end = clock();
+
+    merge_time += merge_end - start_time;
+    qsort_time += qsort_end - merge_end;
 
     for (size_t i = 0; i < arr_size; i++) {
       if (test_arr[i] != arr[i]) {
@@ -46,5 +55,6 @@ int main(int argc, char *argv[]) {
       }
     }
   }
+
   printf("Success\n");
 }
