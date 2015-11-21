@@ -57,4 +57,6 @@ int main(int argc, char *argv[]) {
   }
 
   printf("Success\n");
+  printf("Clocks for each Serial Merge Sort: %lu\n", merge_time/num_checks);
+  printf("Clocks for each Builtin QSort: %lu\n", qsort_time/num_checks);
 }
