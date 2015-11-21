@@ -1,15 +1,50 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 #include "./merge.c"
 
-int main() {
-  int arr[] = {5, 6, 7,8,  4, 1};
-  for (int i = 0; i < 5; i++) {
-   printf("%d ", arr[i]);
+#define DEFAULT_ARR_SIZE (1 << 21)
+#define DEFAULT_NUM_CHECKS 10
+
+int uint32_t_compare (const void* a, const void* b) {
+  return (*(int*)a - *(int*)b);
+}
+
+int main(int argc, char *argv[]) {
+  srand(time(NULL));
+
+  size_t arr_size = DEFAULT_ARR_SIZE;
+  size_t num_checks = DEFAULT_NUM_CHECKS;
+
+  if (argc > 1) {
+    num_checks = atoi(argv[1]);
+    if (argc > 2) {
+      arr_size = atoi(argv[2]);
+    }
   }
-  printf("\n");
-  merge_sort(arr, arr + 5);
-  for (int i = 0; i < 5; i++) {
-   printf("%d ", arr[i]);
+
+  printf("Performing %d Sorting Tests on Array of Size %d\n", num_checks, arr_size);
+
+  uint32_t* arr = (uint32_t*)malloc(sizeof(uint32_t) * arr_size);
+  uint32_t* test_arr = (uint32_t*)malloc(sizeof(uint32_t) * arr_size);
+
+  for (size_t checks = 1; checks <= num_checks; checks++) {
+    printf("Check %d\n", checks);
+    for (size_t i = 0; i < arr_size; i++) {
+      arr[i] = test_arr[i] = rand();
+    }
+
+    merge_sort(arr, arr + arr_size);
+    qsort(test_arr, arr_size, sizeof(uint32_t), uint32_t_compare);
+
+    for (size_t i = 0; i < arr_size; i++) {
+      if (test_arr[i] != arr[i]) {
+        printf("Fail!\n");
+        return 0;
+      }
+    }
   }
-  printf("\n");
+  printf("Success\n");
 }
