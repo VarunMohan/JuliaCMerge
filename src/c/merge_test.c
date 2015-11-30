@@ -6,7 +6,7 @@
 
 #include "merge.h"
 
-#define DEFAULT_ARR_SIZE (1 << 21)
+#define DEFAULT_ARR_SIZE (1L << 21)
 #define DEFAULT_NUM_CHECKS 10
 
 int uint32_t_compare (const void* a, const void* b) {
