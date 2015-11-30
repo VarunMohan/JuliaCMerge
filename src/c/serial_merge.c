@@ -1,10 +1,4 @@
-#ifndef SERIALMERGE
-#define SERIALMERGE
-
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
+#include "merge.h"
 
 //merge two sorted arrays A and B into array C
 static void merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_t* Bend) {
@@ -37,7 +31,7 @@ static void merge_sort_helper(uint32_t* start, uint32_t* end, uint32_t* aux) {
   memcpy(start, aux, n * sizeof(uint32_t));
 }
 
-void merge_sort(uint32_t* arr, uint32_t* arrend) {
+void serial_merge_sort(uint32_t* arr, uint32_t* arrend) {
   uint32_t n = arrend - arr;
   uint32_t *aux = (uint32_t*)malloc(sizeof(uint32_t) * (n)); //auxilliary memory for merge sort
 
@@ -45,5 +39,3 @@ void merge_sort(uint32_t* arr, uint32_t* arrend) {
 
   free(aux);
 }
-
-#endif
