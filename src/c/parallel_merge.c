@@ -47,10 +47,7 @@ static void merge_sort_helper(uint32_t* start, uint32_t* end, uint32_t* aux) {
   }
 
   merge(aux, start, mid, mid, end);
-  //memcpy(start, aux, n * sizeof(uint32_t));
-  for (int i = 0; i < n; i++) {
-    start[i] = aux[i];
-  }
+  memcpy(start, aux, n * sizeof(uint32_t));
 }
 
 void parallel_merge_sort(uint32_t* arr, uint32_t* arrend) {

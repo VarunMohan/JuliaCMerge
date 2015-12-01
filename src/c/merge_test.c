@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <cilk/cilk_api.h>
 
 #include "merge.h"
 
@@ -15,6 +16,7 @@ int uint32_t_compare (const void* a, const void* b) {
 
 int main(int argc, char *argv[]) {
   srand(time(NULL));
+  __cilkrts_set_param("nworkers", "8");
 
   size_t arr_size = DEFAULT_ARR_SIZE;
   size_t num_checks = DEFAULT_NUM_CHECKS;
