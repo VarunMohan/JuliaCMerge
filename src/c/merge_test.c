@@ -45,23 +45,24 @@ int main(int argc, char *argv[]) {
     }
 
     clock_t start_time = clock();
-    serial_merge_sort(serial_arr, serial_arr + arr_size);
+    //serial_merge_sort(serial_arr, serial_arr + arr_size);
     clock_t serial_end = clock();
     parallel_merge_sort(parallel_arr, parallel_arr + arr_size);
     clock_t parallel_end = clock();
-    qsort(qsort_arr, arr_size, sizeof(uint32_t), uint32_t_compare);
+    //qsort(qsort_arr, arr_size, sizeof(uint32_t), uint32_t_compare);
     clock_t qsort_end = clock();
 
     serial_time += serial_end - start_time;
     parallel_time += parallel_end - serial_end;
     qsort_time += qsort_end - parallel_end;
 
-    for (size_t i = 0; i < arr_size; i++) {
+    /*for (size_t i = 0; i < arr_size; i++) {
       if (qsort_arr[i] != serial_arr[i] || qsort_arr[i] != parallel_arr[i]) {
-        printf("Fail!\n");
+        printf("Failure: (qsort, serial, parallel) = (%u, %u, %u)\n",
+            qsort_arr[i], serial_arr[i], parallel_arr[i]);
         return 0;
       }
-    }
+    }*/
   }
 
   printf("Success\n");

@@ -6,18 +6,24 @@
 //merge two sorted arrays A and B into array C
 static void merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_t* Bend) {
   while (A < Aend && B < Bend) {
-    if (*A < *B) {
+    *C++ = *B ^ ((*A ^ *B) & -(*A < *B));
+    /*if (*A < *B) {
       *C++ = *A++;
     } else {
       *C++ = *B++;
-    }
+    }*/
+    bool inc = *A < *B;
+    A += inc;
+    B += !inc;
   }
-  while (A < Aend) {
+  /*while (A < Aend) {
     *C++ = *A++;
   }
   while (B < Bend) {
     *C++ = *B++;
-  }
+  }*/
+  memcpy(C, A, (Aend - A) * sizeof(*A));
+  memcpy(C + (Aend - A), B, (Bend - B) * sizeof(*B));
 }
 
 static void merge_sort_helper(uint32_t* start, uint32_t* end, uint32_t* aux) {
@@ -47,7 +53,7 @@ static void merge_sort_helper(uint32_t* start, uint32_t* end, uint32_t* aux) {
   }
 
   merge(aux, start, mid, mid, end);
-  memcpy(start, aux, n * sizeof(uint32_t));
+  memcpy(start, aux, n * sizeof(*aux));
 }
 
 void parallel_merge_sort(uint32_t* arr, uint32_t* arrend) {

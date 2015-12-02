@@ -11,7 +11,7 @@ test: $(OBJS)
 	$(CC) $(INCLUDES) $(CCFLAGS) $(LDFLAGS) $(OBJS) merge_test.c -o test
 
 %.o: %_merge.c
-	$(CC) $(INCLUDES) $(CCFLAGS) $(LDFLAGS) -c $*_merge.c -o $*.o
+	$(CC) $(INCLUDES) $(CCFLAGS) $(LDFLAGS) -c $*_merge.c -o $*.o -Wa,-ahl=$*.s
 
 clean:
 	rm test
