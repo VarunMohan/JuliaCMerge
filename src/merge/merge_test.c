@@ -8,8 +8,8 @@
 
 #include "merge.h"
 
-#define DEFAULT_ARR_SIZE (1L << 21)
-#define DEFAULT_NUM_CHECKS 10
+#define DEFAULT_ARR_SIZE (1L << 23)
+#define DEFAULT_NUM_CHECKS 3
 
 int uint32_t_compare (const void* a, const void* b) {
   return (*(int*)a - *(int*)b);
