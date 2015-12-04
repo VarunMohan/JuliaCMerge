@@ -5,7 +5,10 @@ INCLUDES := -I/afs/csail.mit.edu/proj/courses/6.172/cilkutil/include
 
 OBJS := parallel.o serial.o
 
-all: test
+all: cilk_test
+
+cilk_test:
+	$(CC) $(INCLUDES) $(CCFLAGS) $(LDFLAGS) cilk_test.c -o cilk_test
 
 test: $(OBJS)
 	$(CC) $(INCLUDES) $(CCFLAGS) $(LDFLAGS) $(OBJS) merge_test.c -o test
