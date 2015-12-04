@@ -1,13 +1,13 @@
 CC := gcc
-CCFLAGS := -std=c99 -g -O3 -fcilkplus
+CCFLAGS := -std=gnu99 -g -O3 -fcilkplus
 LDFLAGS := -ldl -lcilkrts
 INCLUDES := -I/afs/csail.mit.edu/proj/courses/6.172/cilkutil/include
 
 OBJS := parallel.o serial.o
 
-all: cilk_test
+all: test
 
-cilk_test:
+cilk_test: cilk_test.c
 	$(CC) $(INCLUDES) $(CCFLAGS) $(LDFLAGS) cilk_test.c -o cilk_test
 
 test: $(OBJS)
