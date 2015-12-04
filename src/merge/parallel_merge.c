@@ -11,6 +11,12 @@ static void serial_merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, 
     } else {
       *C++ = *B++;
     }
+    /*
+    *C++ = *B ^ ((*A ^ *B) & -(*A < *B));
+    bool inc = *A < *B;
+    A += inc;
+    B += !inc;
+    */
   }
   while (A < Aend) {
     *C++ = *A++;
@@ -18,6 +24,10 @@ static void serial_merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, 
   while (B < Bend) {
     *C++ = *B++;
   }
+  /*
+  memcpy(C, A, (Aend - A) * sizeof(*A));
+  memcpy(C + (Aend - A), B, (Bend - B) * sizeof(*B));
+  */
 }
 
 static void parallel_merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_t* Bend) {
