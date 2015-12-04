@@ -17,4 +17,4 @@ test: $(OBJS)
 	$(CC) $(INCLUDES) $(CCFLAGS) $(LDFLAGS) -c $*_merge.c -o $*.o
 
 clean:
-	rm test
+	rm $(OBJS) test
