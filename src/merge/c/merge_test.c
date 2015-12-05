@@ -22,9 +22,15 @@ double get_time() {
     return res;
 }
 
+double time(void (*func)(uint32_t *start, uint32_t *end), uint32_t *data, size_t size) {
+    double start = get_time();
+    func(data, data + size);
+    return get_time() - start;
+}
+
 int main(int argc, char *argv[]) {
   srand(time(NULL));
-  __cilkrts_set_param("nworkers", "8");
+  //__cilkrts_set_param("nworkers", "8");
 
   size_t arr_size = DEFAULT_ARR_SIZE;
   size_t num_checks = DEFAULT_NUM_CHECKS;
@@ -49,7 +55,7 @@ int main(int argc, char *argv[]) {
   for (size_t checks = 1; checks <= num_checks; checks++) {
     printf("Check %lu\n", checks);
     for (size_t i = 0; i < arr_size; i++) {
-      serial_arr[i] = parallel_arr[i] = qsort_arr[i] = rand();
+      serial_arr[i] = parallel_arr[i] = qsort_arr[i] = rand() % 100;
     }
 
     double start_time = get_time();
