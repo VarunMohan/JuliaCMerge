@@ -25,7 +25,7 @@ static void merge_sort_helper(uint32_t* arr, uint32_t n, int32_t* aux) {
     return;
   }
 
-  if (n < (1 << 11)) {
+  if (n < PARALLEL_THRESHOLD) {
     merge_sort_helper(aux, n/2, arr);
     merge_sort_helper(aux + n/2, n - n/2, arr + n/2);
   } else {

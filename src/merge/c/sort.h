@@ -8,6 +8,7 @@
 #include <stdbool.h>
 
 #define SMALL_THRESHOLD 32
+#define PARALLEL_THRESHOLD 1<<11
 
 void parallel_merge_sort(uint32_t* arr, uint32_t* arrend);
 void serial_merge_sort(uint32_t* arr, uint32_t* arrend);
