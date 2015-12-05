@@ -27,7 +27,10 @@ static void merge_sort_helper(uint32_t* arr, uint32_t n, int32_t* aux, bool sort
   if (n == 1) {
     *aux = *arr;
     return;
-  }
+  }/* else if (n < SMALL_THRESHOLD) {
+    insertion_sort(aux, aux + n);
+  }*/
+
   if (n < (1 << 11)) {
     merge_sort_helper(arr, n/2, aux, !sort_in_arr);
     merge_sort_helper(arr + n/2, n - n/2, aux + n/2, !sort_in_arr);

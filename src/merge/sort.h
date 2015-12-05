@@ -16,7 +16,7 @@ static void insertion_sort(uint32_t* arr, uint32_t* arrend) {
   for (uint32_t *i = arr + 1, *j; i < arrend; i++) {
     uint32_t x = *i;
     for (j = i; j > arr; j--) {
-      if (*j < *(j - 1)) {
+      if (x < *(j - 1)) {
         *j = *(j - 1);
         continue;
       }

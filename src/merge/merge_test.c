@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
   for (size_t checks = 1; checks <= num_checks; checks++) {
     printf("Check %lu\n", checks);
     for (size_t i = 0; i < arr_size; i++) {
-      serial_arr[i] = parallel_arr[i] = qsort_arr[i] = rand();
+      serial_arr[i] = parallel_arr[i] = qsort_arr[i] = rand() % 100;
     }
 
     double start_time = get_time();
