@@ -1,4 +1,4 @@
-#include "merge.h"
+#include "sort.h"
 
 //merge two sorted arrays A and B into array C
 static void merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_t* Bend) {

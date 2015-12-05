@@ -1,5 +1,5 @@
-#ifndef MERGE_H
-#define MERGE_H
+#ifndef SORT_H
+#define SORT_H
 
 #include <stdint.h>
 #include <stdlib.h>

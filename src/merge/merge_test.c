@@ -6,7 +6,7 @@
 #include <string.h>
 #include <cilk/cilk_api.h>
 
-#include "merge.h"
+#include "sort.h"
 
 #define DEFAULT_ARR_SIZE (1L << 23)
 #define DEFAULT_NUM_CHECKS 3
