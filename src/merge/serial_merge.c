@@ -17,8 +17,8 @@ static void merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_
 }
 
 static void merge_sort_helper(uint32_t* arr, uint32_t n, int32_t* aux, bool sort_in_arr) {
-  if (n == 1) {
-    *aux = *arr;
+  if (n <= SMALL_THRESHOLD) {
+    insertion_sort(arr, arr + n);    
     return;
   }
 
