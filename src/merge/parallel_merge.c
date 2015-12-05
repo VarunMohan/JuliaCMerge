@@ -24,12 +24,11 @@ static void parallel_merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B
 }
 
 static void merge_sort_helper(uint32_t* arr, uint32_t n, int32_t* aux, bool sort_in_arr) {
-  if (n == 1) {
-    *aux = *arr;
+  if (n <= SMALL_THRESHOLD) {
+    if (sort_in_arr) insertion_sort(arr, arr + n);
+    else insertion_sort(aux, aux + n);
     return;
-  }/* else if (n < SMALL_THRESHOLD) {
-    insertion_sort(aux, aux + n);
-  }*/
+  }
 
   if (n < (1 << 11)) {
     merge_sort_helper(arr, n/2, aux, !sort_in_arr);
