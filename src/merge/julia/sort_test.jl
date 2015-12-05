@@ -7,6 +7,7 @@ using Base.Sort
 
 N = 2^23
 NUM_TESTS = 1
+NUM_TRIALS = 10
 
 function gen_test(n)
     A = zeros(UInt32, n)
@@ -16,26 +17,30 @@ function gen_test(n)
     A
 end
 
-println("Testing InsertionSort")
-for i in 1:NUM_TESTS
-    A = gen_test(N)
-    B = copy(A)
-    @test MySort.InsertionSort!(A, 1, N) == sort!(B, alg=Sort.InsertionSort)
-end
-
+#=
 println("Testing MergeSort")
 for i in 1:NUM_TESTS
     A = gen_test(N)
     B = copy(A)
-    @test MySort.MergeSort!(A, 1, N) == sort!(B, alg=Sort.MergeSort)
+    @test MySort.sort!(A) == sort!(B, alg=Sort.MergeSort)
+end
+=#
+
+
+lib_time = 0
+my_time = 0
+for i in 1:NUM_TRIALS
+    A = gen_test(N)
+    B = copy(A)
+    tic()
+    MySort.sort!(A)
+    lib_time += toq()
+    tic()
+    sort!(B, alg=Sort.MergeSort)
+    my_time += toq()
 end
 
-A = gen_test(N)
-B = copy(A)
-tic()
-MySort.MergeSort!(A, 1, N)
-toc()
-
-tic()
-sort!(B, alg=Sort.MergeSort)
-toc()
+println("Library Method Time")
+println(lib_time / NUM_TRIALS)
+println("My Method Time")
+println(my_time / NUM_TRIALS)

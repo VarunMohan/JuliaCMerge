@@ -63,4 +63,8 @@ end
     end
 end
 
+function sort!(A)
+    MergeSort!(A, 1, length(A))
+end
+
 end
