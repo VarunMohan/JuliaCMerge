@@ -1,3 +1,5 @@
+#include <cilk/cilk.h>
+
 #include "sort.h"
 
 static void merge_sort_helper(uint32_t *v, size_t lo, size_t hi, uint32_t *t) {
@@ -7,8 +9,9 @@ static void merge_sort_helper(uint32_t *v, size_t lo, size_t hi, uint32_t *t) {
 
         size_t m = (lo + hi) >> 1;
 
-        merge_sort_helper(v, lo, m, t);
+        cilk_spawn merge_sort_helper(v, lo, m, t);
         merge_sort_helper(v, m + 1, hi, t);
+        cilk_sync;
 
         for (size_t i = lo; i <= m; i++)
             t[i] = v[i];
@@ -25,7 +28,7 @@ static void merge_sort_helper(uint32_t *v, size_t lo, size_t hi, uint32_t *t) {
     }
 }
 
-void naive_serial_merge_sort(uint32_t* arr, uint32_t* arrend) {
+void naive_parallel_merge_sort(uint32_t* arr, uint32_t* arrend) {
   uint32_t n = arrend - arr;
   uint32_t *aux = (uint32_t*)malloc(sizeof(uint32_t) * (n)); //auxilliary memory for merge sort
 

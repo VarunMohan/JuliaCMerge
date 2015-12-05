@@ -30,6 +30,7 @@ double benchmark(void (*func)(uint32_t *start, uint32_t *end), uint32_t *data, s
 
 int main(int argc, char *argv[]) {
     srand(time(NULL));
+    setbuf(stdout, 0);
     //__cilkrts_set_param("nworkers", "8");
 
     size_t arr_size = DEFAULT_ARR_SIZE;
@@ -48,29 +49,33 @@ int main(int argc, char *argv[]) {
     uint32_t* data_arr = (uint32_t*)malloc(sizeof(uint32_t) * arr_size);
     uint32_t* qsort_arr = (uint32_t*)malloc(sizeof(uint32_t) * arr_size);
 
-    #define NVARIANTS 3
-    void (*funcs[4]) = {NULL, serial_merge_sort, naive_serial_merge_sort, parallel_merge_sort};
-    double times[NVARIANTS + 1] = {0, 0, 0, 0};
-    char *names[NVARIANTS + 1] = {"Builtin Quick", "Serial Merge", "Naive Serial Merge", "Parallel Merge"};
+    #define NVARIANTS 6
+    void (*funcs[NVARIANTS + 1]) = {NULL, serial_merge_sort, naive_serial_merge_sort, optimized_serial_merge_sort, parallel_merge_sort, naive_parallel_merge_sort, optimized_parallel_merge_sort};
+    double times[NVARIANTS + 1] = {0, 0, 0, 0, 0, 0}, time;
+    char *names[NVARIANTS + 1] = {"Builtin Quick", "Serial Merge", "Naive Serial Merge", "Optimized Serial Merge", "Parallel Merge", "Naive Parallel Merge", "Optimized Parallel Merge"};
 
     for (size_t checks = 1; checks <= num_checks; checks++) {
         printf("Check %lu\n", checks);
         for (size_t i = 0; i < arr_size; i++)
             orig_arr[i] = qsort_arr[i] = rand() % 100;
 
+        printf("\t Running %s Sort...", names[0]);
         double start_time = get_time();
         qsort(qsort_arr, arr_size, sizeof(uint32_t), uint32_t_compare);
         double end_time = get_time();
-        times[0] += end_time - start_time;
+        times[0] += time = end_time - start_time;
+        printf("%.6fs\n", time);
 
         for (int i = 1; i <= NVARIANTS; i++) {
+            printf("\t Running %s Sort...", names[i]);
             memcpy(data_arr, orig_arr, arr_size * sizeof(uint32_t));
-            times[i] += benchmark(funcs[i], data_arr, arr_size);
+            times[i] += time = benchmark(funcs[i], data_arr, arr_size);
             for (size_t j = 0; j < arr_size; j++)
                 if (qsort_arr[i] != data_arr[i]) {
                     printf("Fail! %s is incorrect\n", names[i]);
                     return 0;
                 }
+            printf("%.6fs\n", time);
         }
     }
 

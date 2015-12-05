@@ -1,9 +1,9 @@
 CC := gcc
-CCFLAGS := -std=gnu99 -g -O3 -fcilkplus -flto
+CCFLAGS := -std=gnu99 -g -O3 -fcilkplus -flto -mavx2 -ftree-vectorizer-verbose=1
 LDFLAGS := -ldl -lcilkrts
 INCLUDES := -I/afs/csail.mit.edu/proj/courses/6.172/cilkutil/include
 
-OBJS := parallel.o serial.o naive_serial.o
+OBJS := parallel.o serial.o naive_serial.o naive_parallel.o optimized_serial.o optimized_parallel.o
 
 all: test
 
