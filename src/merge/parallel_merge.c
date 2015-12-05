@@ -11,12 +11,6 @@ static void serial_merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, 
     } else {
       *C++ = *B++;
     }
-    /*
-    *C++ = *B ^ ((*A ^ *B) & -(*A < *B));
-    bool inc = *A < *B;
-    A += inc;
-    B += !inc;
-    */
   }
   if (A < Aend) {
     memcpy(C, A, (Aend - A) * sizeof(*A));
