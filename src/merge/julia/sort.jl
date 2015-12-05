@@ -37,13 +37,16 @@ end
 
 @inline function merge(v::Array{UInt32,1}, lo::Int, hi::Int, t::Array{UInt32,1})
     m = (lo+hi)>>>1
-
+#=
     i, j = 1, lo
     while j <= m
 	t[i] = v[j]
 	i += 1
 	j += 1
     end
+=#
+    j = m + 1
+    copy!(t, 1, v, lo, m - lo + 1)
 
     i, k = 1, lo
     while k < j <= hi

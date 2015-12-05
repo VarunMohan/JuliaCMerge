@@ -17,15 +17,12 @@ function gen_test(n)
     A
 end
 
-#=
 println("Testing MergeSort")
 for i in 1:NUM_TESTS
     A = gen_test(N)
     B = copy(A)
     @test MySort.sort!(A) == sort!(B, alg=Sort.MergeSort)
 end
-=#
-
 
 lib_time = 0
 my_time = 0
