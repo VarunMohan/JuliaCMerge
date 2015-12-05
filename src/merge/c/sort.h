@@ -11,8 +11,9 @@
 
 void parallel_merge_sort(uint32_t* arr, uint32_t* arrend);
 void serial_merge_sort(uint32_t* arr, uint32_t* arrend);
+void naive_serial_merge_sort(uint32_t* arr, uint32_t* arrend);
 
-static void insertion_sort(uint32_t* arr, uint32_t* arrend) {
+static inline void insertion_sort(uint32_t* arr, uint32_t* arrend) {
   for (uint32_t *i = arr + 1, *j; i < arrend; i++) {
     uint32_t x = *i;
     for (j = i; j > arr; j--) {
