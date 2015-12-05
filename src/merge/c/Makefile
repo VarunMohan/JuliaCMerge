@@ -1,5 +1,5 @@
 CC := gcc
-CCFLAGS := -std=gnu99 -g -O3 -fcilkplus
+CCFLAGS := -std=gnu99 -g -O3 -fcilkplus -flto
 LDFLAGS := -ldl -lcilkrts
 INCLUDES := -I/afs/csail.mit.edu/proj/courses/6.172/cilkutil/include
 
