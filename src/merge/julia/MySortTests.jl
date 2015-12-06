@@ -64,7 +64,7 @@ function benchmark_sort(num_trials, n)
 
         # Base.Sort
         tic()
-        sort!(A)
+        sort!(A, alg=MergeSort)
         basesort_t += toq()
 
         # MySerialSort
@@ -82,7 +82,7 @@ function benchmark_sort(num_trials, n)
         A = gen_parallel_test(n)
         B = copy(A)
 
-        # Base.Sort
+        # Parallel Sort
         tic()
         MyParallelSort.sort!(B)
         parallel_t += toq() 
