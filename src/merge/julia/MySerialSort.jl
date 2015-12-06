@@ -1,7 +1,14 @@
-module MySort
+module MySerialSort
 
-const SMALL_THRESHOLD = 32
+#=
 
+Implementation of Julia's Default Stable Sort from Base.Sort Module
+
+=#
+
+const SMALL_THRESHOLD = 32 # Julia's Base.Sort uses 20
+
+# Base.Sort implementation of InsertionSort with UInt32
 function InsertionSort!(v::Array{UInt32,1}, lo::Int, hi::Int)
     @inbounds for i = lo+1:hi
         j = i
@@ -19,6 +26,8 @@ function InsertionSort!(v::Array{UInt32,1}, lo::Int, hi::Int)
     return v
 end
 
+# Base.Sort implementation of MergeSort with UInt32
+#  - Calls InsertionSort for problems of size <= 32
 function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
     @inbounds if lo < hi
         hi-lo <= SMALL_THRESHOLD && return InsertionSort!(v, lo, hi)
@@ -35,18 +44,17 @@ function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
     return v
 end
 
+# Base.Sort implementation of merge routine with UInt32
+#  - Moved to separate method for ease of reading
 @inline function merge(v::Array{UInt32,1}, lo::Int, hi::Int, t::Array{UInt32,1})
     m = (lo+hi)>>>1
-#=
+
     i, j = 1, lo
     while j <= m
 	t[i] = v[j]
 	i += 1
 	j += 1
     end
-=#
-    j = m + 1
-    copy!(t, 1, v, lo, m - lo + 1)
 
     i, k = 1, lo
     while k < j <= hi
@@ -66,7 +74,8 @@ end
     end
 end
 
-function sort!(A)
+# Interface method
+function sort!(A::Array{UInt32,1})
     MergeSort!(A, 1, length(A))
 end
 
