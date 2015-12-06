@@ -1,7 +1,7 @@
 #include "sort.h"
 
 //merge two sorted arrays A and B into array C
-static inline void merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_t* Bend) {
+static void merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_t* Bend) {
   while (A < Aend && B < Bend) {
     if (*A < *B) {
       *C++ = *A++;
