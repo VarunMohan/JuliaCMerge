@@ -53,6 +53,8 @@ end
 
     j = m + 1
     copy!(t, 1, v, lo, m - lo + 1)
+    #t[1:m-lo+1] = v[lo:m]
+    #ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt), t, v, (m - lo + 1)*sizeof(UInt32))
 
     i, k = 1, lo
     while k < j <= hi
