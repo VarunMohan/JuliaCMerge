@@ -1,0 +1,92 @@
+--------------------------------------------------------------------------------
+I1 cache:         32768 B, 64 B, 8-way associative
+D1 cache:         32768 B, 64 B, 8-way associative
+LL cache:         20971520 B, 64 B, 20-way associative
+Command:          ./test
+Data file:        cachegrind.out.39448
+Events recorded:  Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw Bc Bcm Bi Bim
+Events shown:     Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw Bc Bcm Bi Bim
+Event sort order: Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw Bc Bcm Bi Bim
+Thresholds:       0.1 100 100 100 100 100 100 100 100 100 100 100 100
+Include dirs:     
+User annotated:   /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/serial_merge.c
+Auto-annotation:  off
+
+--------------------------------------------------------------------------------
+            Ir  I1mr  ILmr             Dr        D1mr       DLmr            Dw        D1mw       DLmw             Bc         Bcm          Bi   Bim 
+--------------------------------------------------------------------------------
+59,247,838,918 5,972 5,860 14,386,179,059 186,371,928 60,323,568 6,316,472,090 176,972,674 50,031,363 12,601,027,006 560,510,434 585,579,315 1,789  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+           Ir I1mr ILmr            Dr       D1mr       DLmr            Dw       D1mw       DLmw            Bc         Bcm          Bi   Bim  file:function
+--------------------------------------------------------------------------------
+9,910,640,326   27   27 1,593,418,421     63,054         45 1,404,674,762 18,549,324  3,130,451 1,799,586,599 132,047,513 545,222,153     1  /build/buildd/eglibc-2.19/stdlib/msort.c:msort_with_tmp.part.0
+8,683,979,108   43   43 3,652,541,873 26,057,280  7,288,779   708,150,375 26,071,436  6,821,950 1,586,539,168  60,144,327           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/naive_parallel_merge.c:merge_sort_helper
+6,815,641,222   15   15 1,137,385,370 25,755,927  4,212,139   687,702,559 25,608,927  4,221,244 1,581,820,420  59,569,211           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/naive_serial_merge.c:merge_sort_helper
+5,668,559,298   10   10   908,014,989 17,340,171  2,928,730   459,119,289 18,867,900  4,657,442 1,352,450,083  58,464,660           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/serial_merge.c:merge_sort_helper
+5,631,056,173    3    3   899,364,252 17,798,458  5,886,383   449,682,126 19,211,463  7,400,815 1,350,877,222  58,094,485           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/parallel_merge.c:serial_merge
+4,851,181,395   15   15   721,123,869  4,742,686  4,669,682   652,488,255      2,101          5 1,373,612,124  80,526,878           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/sort.h:insertion_sort
+4,848,822,099    6    6   718,764,573  4,736,986  4,718,607   652,488,255          0          0 1,373,612,124  80,315,584           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/sort.h:merge_sort_helper
+4,103,969,013   49   49 1,553,624,182 12,747,624  6,137,745   277,845,351 10,162,191  3,272,311   763,492,033   1,804,929           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/optimized_parallel_merge.c:merge_sort_helper
+3,303,794,684   12   12   514,325,664 12,624,003  4,178,748   263,454,577  9,497,466  1,475,058   759,691,769   1,206,425           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/optimized_serial_merge.c:merge_sort_helper
+1,635,666,459    0    0 1,635,666,459 18,762,521  4,309,530             0          0          0             0           0           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/merge_test.c:uint32_t_compare
+1,325,443,402   75   73   340,698,474 17,297,763  3,130,074   303,181,400 17,306,981  2,925,902   325,469,438  23,637,877           0     0  /build/buildd/eglibc-2.19/string/../sysdeps/x86_64/multiarch/../memcpy.S:__GI_memcpy
+  653,507,674    6    6   201,329,072         12          8   100,664,536          0          0   100,664,536     811,831           0     0  /build/buildd/eglibc-2.19/stdlib/random_r.c:random_r
+  481,833,070   48   48   161,278,318 28,003,238 12,841,852   158,132,584 28,068,250 12,962,765    49,682,516   1,941,854           0     0  /build/buildd/eglibc-2.19/string/../sysdeps/x86_64/multiarch/memcpy-sse2-unaligned.S:__memcpy_sse2_unaligned
+  461,373,440    9    9   167,772,160          3          2    25,165,824          0          0   117,440,512          15           0     0  /build/buildd/eglibc-2.19/stdlib/random.c:random
+  377,488,244   34   34           214         81         80    75,497,688  3,145,755  3,145,751    25,165,907          32           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/merge_test.c:main
+  100,663,296    3    3    25,165,824          0          0    25,165,824          0          0             0           0           0     0  /build/buildd/eglibc-2.19/stdlib/rand.c:rand
+   94,421,317    2    2    27,770,965     65,715        177             0          0          0    16,662,583     735,058           0     0  /build/buildd/eglibc-2.19/nptl/pthread_getspecific.c:pthread_getspecific
+   90,244,197   39   37    36,323,606     69,831        820    25,313,720    113,252      2,048     5,554,290   1,053,937           0     0  /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/parallel_merge.c:merge_sort_helper
+   66,649,914    6    4    16,662,474        173          1    33,324,957    242,360      5,255     5,554,158          10           0     0  ???:__cilkrts_enter_frame
+
+--------------------------------------------------------------------------------
+-- User-annotated source: /afs/athena.mit.edu/user/v/m/vmohan/Classes/6.338/JuliaCMerge/src/merge/c/serial_merge.c
+--------------------------------------------------------------------------------
+           Ir I1mr ILmr          Dr       D1mr      DLmr          Dw      D1mw      DLmw          Bc        Bcm Bi Bim 
+
+            .    .    .           .          .         .           .         .         .           .          .  .   .  #include "sort.h"
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+            .    .    .           .          .         .           .         .         .           .          .  .   .  //merge two sorted arrays A and B into array C
+            .    .    .           .          .         .           .         .         .           .          .  .   .  static inline void merge(uint32_t* C, uint32_t* A, uint32_t* Aend, uint32_t* B, uint32_t* Bend) {
+2,251,285,889    0    0           0          0         0           0         0         0 900,408,667    786,552  0   0    while (A < Aend && B < Bend) {
+1,798,728,504    0    0 899,364,252 17,325,429 2,928,712           0         0         0 449,682,126 57,304,711  0   0      if (*A < *B) {
+  897,097,524    0    0           0          0         0 223,707,699 9,364,778 2,317,313           0          0  0   0        *C++ = *A++;
+            .    .    .           .          .         .           .         .         .           .          .  .   .      } else {
+  677,923,281    3    3           0          0         0 225,974,427 9,467,908 2,340,066           0          0  0   0        *C++ = *B++;
+            .    .    .           .          .         .           .         .         .           .          .  .   .      }
+            .    .    .           .          .         .           .         .         .           .          .  .   .    }
+    1,572,858    0    0           0          0         0           0         0         0     786,429          8  0   0    if (A < Aend) {
+    2,113,772    0    0           0          0         0           0         0         0           0          0  0   0      memcpy(C, A, (Aend - A) * sizeof(*A));
+            .    .    .           .          .         .           .         .         .           .          .  .   .    } else {
+    1,302,401    0    0           0          0         0           0         0         0           0          0  0   0      memcpy(C, B, (Bend - B) * sizeof(*B));
+            .    .    .           .          .         .           .         .         .           .          .  .   .    }
+            .    .    .           .          .         .           .         .         .           .          .  .   .  }
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+   11,010,027    3    3           0          0         0   7,864,305    25,797        42           0          0  0   0  static void merge_sort_helper(uint32_t* arr, uint32_t n, int32_t* aux) {
+    3,145,722    0    0           0          0         0           0         0         0   1,572,861    373,389  0   0    if (n <= SMALL_THRESHOLD) {
+      786,432    0    0           0          0         0           0         0         0           0          0  0   0      insertion_sort(arr, arr + n);
+            .    .    .           .          .         .           .         .         .           .          .  .   .      return;
+            .    .    .           .          .         .           .         .         .           .          .  .   .    }
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+    5,505,003    2    2           0          0         0     786,429     9,417        21           0          0  0   0    merge_sort_helper(aux, n/2, arr);
+    8,650,719    2    2           0          0         0     786,429         0         0           0          0  0   0    merge_sort_helper(aux + n/2, n - n/2, arr + n/2);
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+      786,429    0    0           0          0         0           0         0         0           0          0  0   0    merge(arr, aux, aux + n/2, aux + n/2, aux + n);
+    8,650,737    0    0   8,650,737     14,742        18           0         0         0           0          0  0   0  }
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+           15    3    3           0          0         0           9         0         0           0          0  0   0  void serial_merge_sort(uint32_t* arr, uint32_t* arrend) {
+            9    0    0           0          0         0           0         0         0           0          0  0   0    uint32_t n = arrend - arr;
+            9    0    0           0          0         0           3         0         0           0          0  0   0    uint32_t *aux = (uint32_t*)malloc(sizeof(uint32_t) * (n)); //auxilliary memory for merge sort
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+           12    0    0           0          0         0           3         0         0           0          0  0   0    merge_sort_helper(arr, n, aux);
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+            6    3    3           0          0         0           0         0         0           0          0  0   0    free(aux);
+            9    0    0           9          0         0           0         0         0           0          0  0   0  }
+            .    .    .           .          .         .           .         .         .           .          .  .   .  
+
+--------------------------------------------------------------------------------
+Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw Bc Bcm Bi Bim 
+--------------------------------------------------------------------------------
+10    0    0  6    9    5  7   11    9 11  10  0   0  percentage of events annotated
+
