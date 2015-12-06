@@ -1,6 +1,6 @@
-include("sort.jl")
+include("MySerialSort.jl")
 
-using MySort
+using MySerialSort
 
 using Base.Test
 using Base.Sort
@@ -21,7 +21,7 @@ println("Testing MergeSort")
 for i in 1:NUM_TESTS
     A = gen_test(N)
     B = copy(A)
-    @test MySort.sort!(A) == sort!(B, alg=Sort.MergeSort)
+    @test MySerialSort.sort!(A) == sort!(B, alg=Sort.MergeSort)
 end
 
 lib_time = 0
@@ -30,7 +30,7 @@ for i in 1:NUM_TRIALS
     A = gen_test(N)
     B = copy(A)
     tic()
-    MySort.sort!(A)
+    MySerialSort.sort!(A)
     lib_time += toq()
     tic()
     sort!(B, alg=Sort.MergeSort)
