@@ -66,7 +66,6 @@ end
 # Base.Sort implementation of MergeSort with UInt32
 #  - Calls InsertionSort for problems of size <= 32
 function MergeSort!(v::SharedArray{UInt32,1}, lo::Int, hi::Int, cur_proc::Int, num_procs::Int, t=SharedArray(eltype(v), size(v)))
-    println(cur_proc)
     if num_procs < 2
         return MergeSortHelper!(v, lo, hi, t)
     end
