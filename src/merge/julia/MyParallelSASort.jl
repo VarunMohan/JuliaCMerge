@@ -106,4 +106,9 @@ function sort!(A::SharedArray{UInt32,1})
     MergeSort!(A, 1, length(A), 1, num_procs)
 end
 
+# Interface method
+function sort!(A::SharedArray{UInt32,1}, num_procs::Int)
+    MergeSort!(A, 1, length(A), 1, num_procs)
+end
+
 end

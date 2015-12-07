@@ -94,7 +94,7 @@ function benchmark_sort(num_trials, n)
 
         # Parallel Sort with SharedArray
         tic()
-        MyParallelSASort.sort!(A)
+        MyParallelSASort.sort!(A, 4)
         parallel_sa_t += toq() 
     end
 
