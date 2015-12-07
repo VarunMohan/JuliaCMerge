@@ -1,19 +1,21 @@
-addprocs(1)
+addprocs(3)
 
 @everywhere include("MySerialSort.jl")
 @everywhere include("MySerialOptSort.jl")
 @everywhere include("MyParallelSort.jl")
+@everywhere include("MyParallelSASort.jl")
 
 using Base.Test
 using Base.Sort
 using MySerialSort
 using MySerialOptSort
 using MyParallelSort
+using MyParallelSASort
 
 N = 2^23 # Array Size
 
 NUM_TESTS  = 1
-NUM_TRIALS = 10
+NUM_TRIALS = 1
 
 # Generates an array for serial sorting
 function gen_serial_test(n)
@@ -26,7 +28,7 @@ end
 
 # Generates an array for parallel sorting
 function gen_parallel_test(n)
-    A = Array(UInt32, n)
+    A = SharedArray(UInt32, n)
     for i in 1:n
         A[i] = rand(UInt32)
     end
@@ -58,11 +60,13 @@ function benchmark_sort(num_trials, n)
     serial_t = 0
     serial_opt_t = 0
     parallel_t = 0
+    parallel_sa_t = 0
 
     for i in 1:num_trials
         A = gen_serial_test(n)
         B = copy(A)
         C = copy(B)
+        D = copy(C)
 
         # Base.Sort
         tic()
@@ -78,15 +82,20 @@ function benchmark_sort(num_trials, n)
         tic()
         MySerialOptSort.sort!(C)
         serial_opt_t += toq()
+
+        # ParallelSort
+        tic()
+        MyParallelSort.sort!(D)
+        parallel_t += toq()
     end
 
     for i in 1:num_trials
         A = gen_parallel_test(n)
 
-        # Parallel Sort
+        # Parallel Sort with SharedArray
         tic()
-        MyParallelSort.sort!(A)
-        parallel_t += toq() 
+        MyParallelSASort.sort!(A)
+        parallel_sa_t += toq() 
     end
 
     println("Base.Sort")
@@ -97,6 +106,8 @@ function benchmark_sort(num_trials, n)
     println("\t", serial_opt_t / num_trials)
     println("MyParallelSort")
     println("\t", parallel_t / num_trials)
+    println("MyParallelSASort")
+    println("\t", parallel_sa_t / num_trials)
 end
 
 println("Testing Serial MergeSort...")
@@ -108,7 +119,11 @@ test_serial_sort(MySerialOptSort.sort!, NUM_TRIALS, N)
 println("Testing Complete!")
 println()
 println("Testing Parallel MergeSort...")
-test_parallel_sort(MyParallelSort.sort!, NUM_TRIALS, N)
+test_serial_sort(MyParallelSort.sort!, NUM_TRIALS, N)
+println("Testing Complete!")
+println()
+println("Testing Parallel SharedArray MergeSort...")
+test_parallel_sort(MyParallelSASort.sort!, NUM_TRIALS, N)
 println("Testing Complete!")
 println()
 println("Running Benchmark Suite...")
