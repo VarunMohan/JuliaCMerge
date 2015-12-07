@@ -1,5 +1,6 @@
 module MyParallelSort
 
+
 #=
 
 Implementation of Julia's Default Stable Sort from Base.Sort Module
@@ -28,15 +29,15 @@ end
 
 # Base.Sort implementation of MergeSort with UInt32
 #  - Calls InsertionSort for problems of size <= 32
-function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
+function MergeSortSerial!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
     @inbounds if lo < hi
         hi-lo <= SMALL_THRESHOLD && return InsertionSort!(v, lo, hi)
 
         m = (lo+hi)>>>1
         isempty(t) && resize!(t, m-lo+1)
 
-        MergeSort!(v, lo,  m, t)
-        MergeSort!(v, m+1, hi, t)
+        MergeSortSerial!(v, lo,  m, t)
+        MergeSortSerial!(v, m+1, hi, t)
 
 	m = (lo+hi)>>>1
 
@@ -63,6 +64,46 @@ function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
 	    k += 1
 	    i += 1
 	end
+    end
+
+    return v
+end
+
+function MergeSortSpawn!(v::Array{UInt32,1}, lo::Int, hi::Int)
+    x = v[lo:hi]
+    MergeSortSerial!(x, lo, hi)
+    return x
+end
+# Base.Sort implementation of MergeSort with UInt32
+#  - Calls InsertionSort for problems of size <= 32
+function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int)
+    @inbounds if lo < hi
+        hi-lo <= SMALL_THRESHOLD && return InsertionSort!(v, lo, hi)
+
+        m = (lo+hi)>>>1
+        r = @spawnat 2 MergeSortSpawn!(v, lo,  m)
+        MergeSortSerial!(v, m+1, hi)
+	newt = fetch(r)
+	m = (lo+hi)>>>1
+        tic()
+	j = m+1
+	i, k = 1, lo
+	while k < j <= hi
+	    if v[j] < newt[i]
+		v[k] = v[j]
+		j += 1
+	    else
+		v[k] = newt[i]
+		i += 1
+	    end
+	    k += 1
+	end
+	while k < j
+	    v[k] = newt[i]
+	    k += 1
+	    i += 1
+	end
+        toc()
     end
 
     return v

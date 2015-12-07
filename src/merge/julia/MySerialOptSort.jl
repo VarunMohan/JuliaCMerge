@@ -40,10 +40,8 @@ function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
 
         m = (lo+hi)>>>1
         isempty(t) && resize!(t, m-lo+1)
-
         MergeSort!(v, lo,  m, t)
         MergeSort!(v, m+1, hi, t)
-
 	m = (lo+hi)>>>1
 
 	j = m + 1

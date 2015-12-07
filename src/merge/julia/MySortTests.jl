@@ -1,6 +1,8 @@
-include("MySerialSort.jl")
-include("MySerialOptSort.jl")
-include("MyParallelSort.jl")
+addprocs(1)
+
+@everywhere include("MySerialSort.jl")
+@everywhere include("MySerialOptSort.jl")
+@everywhere include("MyParallelSort.jl")
 
 using Base.Test
 using Base.Sort
@@ -24,7 +26,7 @@ end
 
 # Generates an array for parallel sorting
 function gen_parallel_test(n)
-    A = SharedArray(UInt32, n)
+    A = Array(UInt32, n)
     for i in 1:n
         A[i] = rand(UInt32)
     end
@@ -80,11 +82,10 @@ function benchmark_sort(num_trials, n)
 
     for i in 1:num_trials
         A = gen_parallel_test(n)
-        B = copy(A)
 
         # Parallel Sort
         tic()
-        MyParallelSort.sort!(B)
+        MyParallelSort.sort!(A)
         parallel_t += toq() 
     end
 
@@ -106,9 +107,9 @@ println("Testing Serial Opt MergeSort...")
 test_serial_sort(MySerialOptSort.sort!, NUM_TRIALS, N)
 println("Testing Complete!")
 println()
-#println("Testing Parallel MergeSort...")
-#test_serial_sort(MyParallelSort.sort!, NUM_TRIALS, N)
-#println("Testing Complete!")
-#println()
+println("Testing Parallel MergeSort...")
+test_parallel_sort(MyParallelSort.sort!, NUM_TRIALS, N)
+println("Testing Complete!")
+println()
 println("Running Benchmark Suite...")
 benchmark_sort(NUM_TRIALS, N)
