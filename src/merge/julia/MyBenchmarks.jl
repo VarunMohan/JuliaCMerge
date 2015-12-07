@@ -1,4 +1,8 @@
-addprocs(7)
+NUM_TESTS  = 1
+NUM_TRIALS = 1
+N = 2^23 # Array Size
+N_CORES = 8
+addprocs(N_CORES - 1)
 
 @everywhere include("MySerialSort.jl")
 @everywhere include("MySerialOptSort.jl")
@@ -12,10 +16,6 @@ using MySerialOptSort
 using MyParallelSort
 using MyParallelSASort
 
-N = 2^23 # Array Size
-
-NUM_TESTS  = 1
-NUM_TRIALS = 1
 
 # Generates an array for serial sorting
 function gen_serial_test(n)
@@ -66,7 +66,6 @@ function benchmark_sort(num_trials, n)
         A = gen_serial_test(n)
         B = copy(A)
         C = copy(B)
-        D = copy(C)
 
         # Base.Sort
         tic()
@@ -82,26 +81,16 @@ function benchmark_sort(num_trials, n)
         tic()
         MySerialOptSort.sort!(C)
         serial_opt_t += toq()
-
-        # ParallelSort
-        tic()
-        MyParallelSort.sort!(D)
-        parallel_t += toq()
-
-        # ParallelSort
-        tic()
-        MyParallelSort.sort!(D)
-        parallel_t += toq()
     end
-
+    
+    parallel_t = 0
     for i in 1:num_trials
-        A = gen_parallel_test(n)
+        A = gen_serial_test(n)
 
-        # Parallel Sort with SharedArray
         tic()
-        MyParallelSASort.sort!(A)
-        parallel_sa_t += toq() 
-    end
+        MyParallelSort.sort!(A) 
+        parallel_t += toq() 
+    end 
 
     println("Base.Sort")
     println("\t", basesort_t / num_trials)
@@ -111,12 +100,22 @@ function benchmark_sort(num_trials, n)
     println("\t", serial_opt_t / num_trials)
     println("MyParallelSort")
     println("\t", parallel_t / num_trials)
-    println("MyParallelSASort")
-    println("\t", parallel_sa_t / num_trials)
+
+    for cores in 1:N_CORES
+        parallel_sa_t = 0
+        for i in 1:num_trials
+            A = gen_parallel_test(n)
+
+            # Parallel Sort with SharedArray
+            tic()
+            MyParallelSASort.sort!(A, cores)
+            parallel_sa_t += toq() 
+        end
+        println("MyParallelSASort ", cores)
+        println("\t", parallel_sa_t / num_trials)
+    end
 end
 
-println("Testing Parallel SharedArray MergeSort...")
 test_parallel_sort(MyParallelSASort.sort!, NUM_TRIALS, N)
-println("Testing Complete!")
-println("Running Benchmark Suite...")
+test_serial_sort(MyParallelSort.sort!, NUM_TRIALS, N)
 benchmark_sort(NUM_TRIALS, N)
