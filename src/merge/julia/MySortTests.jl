@@ -8,10 +8,10 @@ using MySerialSort
 using MySerialOptSort
 using MyParallelSort
 
-N = 100#2^23 # Array Size
+N = 2^23 # Array Size
 
 NUM_TESTS  = 1
-NUM_TRIALS = 10
+NUM_TRIALS = 3
 
 # Generates an array for serial sorting
 function gen_serial_test(n)
