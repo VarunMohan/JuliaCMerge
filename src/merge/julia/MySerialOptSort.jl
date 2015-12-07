@@ -45,9 +45,8 @@ function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
         m = (lo+hi)>>>1
 
         j = m + 1
-        copy!(t, 1, v, lo, m - lo + 1)
-        
-        # ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt), pointer(t), pointer(v) + lo - 1, (m - lo + 1) * sizeof(UInt32))
+        unsafe_copy!(t, 1, v, lo, m - lo + 1)
+        # ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt), pointer(t, 1), pointer(v, lo), (m - lo + 1) * sizeof(UInt32))
 
         i, k = 1, lo
         while k < j <= hi
@@ -60,7 +59,7 @@ function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
             end
             k += 1
         end
-        copy!(v, k, t, i, j - k)
+        unsafe_copy!(v, k, t, i, j - k)
     end
 
     return v

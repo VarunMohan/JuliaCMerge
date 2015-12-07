@@ -10,7 +10,7 @@ using MySerialOptSort
 using MyParallelSort
 using MyParallelSASort
 
-N = 2^10 # Array Size
+N = 2^23 # Array Size
 
 NUM_TESTS  = 1
 NUM_TRIALS = 1

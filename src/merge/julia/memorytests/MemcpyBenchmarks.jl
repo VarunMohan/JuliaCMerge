@@ -22,7 +22,7 @@ function benchmark_memcpy(num_trials, n)
     for k = 1:num_trials
        ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt), B, A, n*sizeof(UInt32))
     end
-    memcopy_time = toq()
+    memcpy_copy = toq()
     tic()
     for k = 1:num_trials
         copy!(B, 65, A, 65, n - 64)
@@ -33,9 +33,15 @@ function benchmark_memcpy(num_trials, n)
         copy!(B, k, A, 65, n - 64)
     end
     copy_unaligned_offset = toq()
+    tic()
+    for k = 1:num_trials
+       ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt), pointer(B, k), pointer(A, 1), (n - 64)*sizeof(UInt32))
+    end
+    memcpy_unaligned_offset = toq()
     println("NAIVE COPY TIME: ", naive_copy/num_trials)
     println("INPLACE JULIA MEMMOVE COPY: ", inplace_copy/num_trials)
-    println("INPLACE JULIA MEMCPY: ", inplace_copy/num_trials)
+    println("INPLACE JULIA MEMCPY: ", memcpy_copy/num_trials)
+    println("INPLACE JULIA MEMCPY UNALIGNED OFFSET: ", memcpy_unaligned_offset/num_trials)
     println("INPLACE JULIA COPY ALIGNED OFFSET: ", copy_aligned_offset/num_trials)
     println("INPLACE JULIA COPY UNALIGNED OFFSET: ", copy_unaligned_offset/num_trials)
 end
