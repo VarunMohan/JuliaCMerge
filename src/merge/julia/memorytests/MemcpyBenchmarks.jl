@@ -1,5 +1,5 @@
-NUM_TRIALS = 100
-N = 2^26
+NUM_TRIALS = 10 
+N = 2^25
 
 # Benchmark Copying Methods
 function benchmark_memcpy(num_trials, n)
@@ -22,11 +22,22 @@ function benchmark_memcpy(num_trials, n)
     for k = 1:num_trials
        ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt), B, A, n*sizeof(UInt32))
     end
-
     memcopy_time = toq()
+    tic()
+    for k = 1:num_trials
+        copy!(B, 65, A, 65, n - 64)
+    end
+    copy_aligned_offset = toq()
+    tic()
+    for k = 1:num_trials
+        copy!(B, k, A, 65, n - 64)
+    end
+    copy_unaligned_offset = toq()
     println("NAIVE COPY TIME: ", naive_copy/num_trials)
     println("INPLACE JULIA MEMMOVE COPY: ", inplace_copy/num_trials)
     println("INPLACE JULIA MEMCPY: ", inplace_copy/num_trials)
+    println("INPLACE JULIA COPY ALIGNED OFFSET: ", copy_aligned_offset/num_trials)
+    println("INPLACE JULIA COPY UNALIGNED OFFSET: ", copy_unaligned_offset/num_trials)
 end
 
 benchmark_memcpy(NUM_TRIALS, N)

@@ -1,5 +1,3 @@
-addprocs(7)
-
 @everywhere include("MySerialSort.jl")
 @everywhere include("MySerialOptSort.jl")
 @everywhere include("MyParallelSort.jl")
@@ -12,7 +10,7 @@ using MySerialOptSort
 using MyParallelSort
 using MyParallelSASort
 
-N = 2^23 # Array Size
+N = 2^10 # Array Size
 
 NUM_TESTS  = 1
 NUM_TRIALS = 1
@@ -82,16 +80,6 @@ function benchmark_sort(num_trials, n)
         tic()
         MySerialOptSort.sort!(C)
         serial_opt_t += toq()
-
-        # ParallelSort
-        tic()
-        MyParallelSort.sort!(D)
-        parallel_t += toq()
-
-        # ParallelSort
-        tic()
-        MyParallelSort.sort!(D)
-        parallel_t += toq()
     end
 
     for i in 1:num_trials
@@ -109,14 +97,12 @@ function benchmark_sort(num_trials, n)
     println("\t", serial_t / num_trials)
     println("MySerialOptSort")
     println("\t", serial_opt_t / num_trials)
-    println("MyParallelSort")
-    println("\t", parallel_t / num_trials)
     println("MyParallelSASort")
     println("\t", parallel_sa_t / num_trials)
 end
 
 println("Testing Parallel SharedArray MergeSort...")
-test_parallel_sort(MyParallelSASort.sort!, NUM_TRIALS, N)
+test_serial_sort(MySerialOptSort.sort!, NUM_TRIALS, N)
 println("Testing Complete!")
 println("Running Benchmark Suite...")
 benchmark_sort(NUM_TRIALS, N)
