@@ -99,11 +99,7 @@ function MergeSort!(v::SharedArray{UInt32,1}, lo::Int, hi::Int, num_procs::Int, 
 	    end
 	    k += 1
 	end
-	while k < j
-	    v[k] = t[i]
-	    k += 1
-	    i += 1
-	end
+        copy!(v, k, t, i, j - k)
     end
 
     return v
@@ -111,7 +107,7 @@ end
 
 # Interface method
 function sort!(A::SharedArray{UInt32,1})
-    num_procs = 7
+    num_procs = 3
     MergeSort!(A, 1, length(A), num_procs)
 end
 

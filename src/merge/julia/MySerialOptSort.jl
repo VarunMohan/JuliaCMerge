@@ -59,11 +59,7 @@ function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
 	    end
 	    k += 1
 	end
-	while k < j
-	    v[k] = t[i]
-	    k += 1
-	    i += 1
-	end
+        copy!(v, k, t, i, j - k)
     end
 
     return v
