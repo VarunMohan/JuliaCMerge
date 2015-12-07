@@ -1,4 +1,8 @@
+include("MyCopy.jl")
+
 module MySerialOptSort
+
+using MyCopy
 
 #=
 
@@ -40,38 +44,31 @@ function MergeSort!(v::Array{UInt32,1}, lo::Int, hi::Int, t=similar(v,0))
         MergeSort!(v, lo,  m, t)
         MergeSort!(v, m+1, hi, t)
 
-	merge(v, lo, hi, t)
+	m = (lo+hi)>>>1
+
+	j = m + 1
+	#MyCopy.copy!(t, 1, v, lo, m - lo + 1)
+        copy!(t, 1, v, lo, m - lo + 1)
+
+	i, k = 1, lo
+	while k < j <= hi
+	    if v[j] < t[i]
+		v[k] = v[j]
+		j += 1
+	    else
+		v[k] = t[i]
+		i += 1
+	    end
+	    k += 1
+	end
+	while k < j
+	    v[k] = t[i]
+	    k += 1
+	    i += 1
+	end
     end
 
     return v
-end
-
-# Base.Sort implementation of merge routine with UInt32
-#  - Moved to separate method for ease of reading
-@inline function merge(v::Array{UInt32,1}, lo::Int, hi::Int, t::Array{UInt32,1})
-    m = (lo+hi)>>>1
-
-    j = m + 1
-    copy!(t, 1, v, lo, m - lo + 1)
-    #t[1:m-lo+1] = v[lo:m]
-    #ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, UInt), t, v, (m - lo + 1)*sizeof(UInt32))
-
-    i, k = 1, lo
-    while k < j <= hi
-	if v[j] < t[i]
-	    v[k] = v[j]
-	    j += 1
-	else
-	    v[k] = t[i]
-	    i += 1
-	end
-	k += 1
-    end
-    while k < j
-	v[k] = t[i]
-	k += 1
-	i += 1
-    end
 end
 
 # Interface method
