@@ -1,7 +1,7 @@
 module MyCopy
 
 function unsafe_copy!{T}(dest::Ptr{T}, src::Ptr{T}, N)
-    ccall(:memmove, Ptr{Void}, (Ptr{Void}, Ptr{Void}, Uint),
+    ccall(:memcpy, Ptr{Void}, (Ptr{Void}, Ptr{Void}, Uint),
           dest, src, N*sizeof(T))
     return dest
 end

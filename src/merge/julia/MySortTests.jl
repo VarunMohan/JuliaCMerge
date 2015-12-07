@@ -11,7 +11,7 @@ using MyParallelSort
 N = 2^23 # Array Size
 
 NUM_TESTS  = 1
-NUM_TRIALS = 3
+NUM_TRIALS = 10
 
 # Generates an array for serial sorting
 function gen_serial_test(n)
