@@ -23,8 +23,9 @@ static void merge_sort_helper(uint32_t *v, size_t lo, size_t hi, uint32_t *t) {
             else
                 v[k++] = t[i++];
 
-        while (k < j)
-            v[k++] = t[i++];
+        //while (k < j)
+        //    v[k++] = t[i++];
+        memcpy(v + k, t + i, (j - k) * sizeof(*t));
     }
 }
 
