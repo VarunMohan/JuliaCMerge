@@ -34,13 +34,13 @@ def read_c_output(d, num_cilkwrks):
 
 def collect_c_data(d):
   for i in range(8):
-    run_c_impl(i + 1)
+    #run_c_impl(i + 1)
     read_c_output(d, i + 1)
 
 def run_j_impl():
   global J_FN_O
 
-  call("julia MyBenchmarks.jl > " + J_FN_O, shell=True)
+  call("julia MyBenchmarks.jl | tee " + J_FN_O, shell=True)
 
 def read_j_output(d):
   global J_FN_O
@@ -58,7 +58,7 @@ def read_j_output(d):
           d['j']['parallel'][num_procs] = float(line.split(" ")[-1].rstrip())
 
 def collect_j_data(d):
-  run_j_impl()
+  #run_j_impl()
   read_j_output(d)
 
 def stats_summary(d):
@@ -77,18 +77,20 @@ def stats_summary(d):
           print "\t\t%(i)d : %(result)f" % locals()
 
 def plot_data(d):
+  plt.subplot(1, 2, 1)
   x = range(1,9)
   y1 = [d['c']['parallel'][i] for i in x]
   y2 = [d['j']['parallel'][i] for i in x]
-  
+
   plt.plot(x, y1, 'bs-', label='C')
   plt.plot(x, y2, 'g^-', label='Julia')
   plt.title("Parallel Runtime vs. Number of Cores")
   plt.xlabel("Number of Cores")
   plt.ylabel("Runtime (secs)")
   plt.legend(loc='right')
-  plt.show()
+  #plt.show()
 
+  plt.subplot(1, 2, 2)
   x = range(1,9)
   y1 = [d['c']['serial_opt'] / d['c']['parallel'][i] for i in x]
   y2 = [d['j']['serial_opt'] / d['j']['parallel'][i] for i in x]
@@ -125,8 +127,8 @@ data = {
 }
 
 if __name__ == "__main__":
+  #cleanup()
   collect_c_data(data)
   collect_j_data(data)
   stats_summary(data)
   plot_data(data)
-  cleanup()
