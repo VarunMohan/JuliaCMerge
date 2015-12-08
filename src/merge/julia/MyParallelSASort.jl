@@ -102,7 +102,7 @@ end
 
 # Interface method
 function sort!(A::SharedArray{UInt32,1})
-    num_procs = 1
+    num_procs = 8
     MergeSort!(A, 1, length(A), 1, num_procs)
 end
 

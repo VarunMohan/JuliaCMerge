@@ -49,7 +49,7 @@ function test_parallel_sort(sort_fnc, num_tests, n)
     for i in 1:num_tests
         A = gen_parallel_test(n)
         B = copy(A)
-        @test sort_fnc(A) == sort!(B, alg=Sort.MergeSort)
+        @test sort_fnc(A, 8) == sort!(B, alg=Sort.MergeSort)
     end
 end
 
