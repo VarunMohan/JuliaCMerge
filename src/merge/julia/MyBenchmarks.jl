@@ -82,15 +82,6 @@ function benchmark_sort(num_trials, n)
         MySerialOptSort.sort!(C)
         serial_opt_t += toq()
     end
-    
-    parallel_t = 0
-    for i in 1:num_trials
-        A = gen_serial_test(n)
-
-        tic()
-        MyParallelSort.sort!(A) 
-        parallel_t += toq() 
-    end 
 
     println("Base.Sort")
     println("\t", basesort_t / num_trials)
@@ -98,8 +89,14 @@ function benchmark_sort(num_trials, n)
     println("\t", serial_t / num_trials)
     println("MySerialOptSort")
     println("\t", serial_opt_t / num_trials)
-    println("MyParallelSort")
-    println("\t", parallel_t / num_trials)
+
+    for cores in 1:N_CORES
+        parallel_sa_t = 0
+        for i in 1:num_trials
+            A = gen_parallel_test(n)
+            MyParallelSASort.sort!(A, cores)
+        end
+    end
 
     for cores in 1:N_CORES
         parallel_sa_t = 0
@@ -117,5 +114,4 @@ function benchmark_sort(num_trials, n)
 end
 
 test_parallel_sort(MyParallelSASort.sort!, NUM_TRIALS, N)
-test_serial_sort(MyParallelSort.sort!, NUM_TRIALS, N)
 benchmark_sort(NUM_TRIALS, N)
