@@ -39,11 +39,14 @@ function benchmark_memcpy(num_trials, n)
     end
     memcpy_unaligned_offset = toq()
     println("NAIVE COPY TIME: ", naive_copy/num_trials)
-    println("INPLACE JULIA MEMMOVE COPY: ", inplace_copy/num_trials)
-    println("INPLACE JULIA MEMCPY: ", memcpy_copy/num_trials)
+    # println("INPLACE JULIA MEMMOVE COPY: ", inplace_copy/num_trials)
+    # println("INPLACE JULIA MEMCPY: ", memcpy_copy/num_trials)
     println("INPLACE JULIA MEMCPY UNALIGNED OFFSET: ", memcpy_unaligned_offset/num_trials)
-    println("INPLACE JULIA COPY ALIGNED OFFSET: ", copy_aligned_offset/num_trials)
-    println("INPLACE JULIA COPY UNALIGNED OFFSET: ", copy_unaligned_offset/num_trials)
+    # println("INPLACE JULIA COPY ALIGNED OFFSET: ", copy_aligned_offset/num_trials)
+    # println("INPLACE JULIA COPY UNALIGNED OFFSET: ", copy_unaligned_offset/num_trials)
 end
 
-benchmark_memcpy(NUM_TRIALS, N)
+for i = 15:25
+    println("N = 2^",i)
+    benchmark_memcpy(NUM_TRIALS, 2^i)
+end
