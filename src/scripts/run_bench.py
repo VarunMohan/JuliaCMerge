@@ -14,8 +14,8 @@ def run_c_impl(num_cilkwrks):
   global AWSRUN
   global C_FN_O
 
-  call("cd ../merge/c/; make clean; make", shell=True)
-  call(AWSRUN + "export CILK_NWORKERS=%(num_cilkwrks)d && ../merge/c/test > " % locals() \
+  call("cd ../merge/c/; make clean; make -B", shell=True)
+  print call(AWSRUN + "export CILK_NWORKERS=%(num_cilkwrks)d && ../merge/c/test | tee " % locals() \
        + C_FN_O, shell=True)
 
 def read_c_output(d, num_cilkwrks):
@@ -23,7 +23,7 @@ def read_c_output(d, num_cilkwrks):
 
   with open(C_FN_O, "r") as f:
     for line in f:
-      print line
+      print line,
       if line.startswith("Average"):
         if "Naive Serial Merge Sort" in line:
           d['c']['serial'] = float(line.split(" ")[-1].rstrip("s\n"))
@@ -78,24 +78,26 @@ def stats_summary(d):
 
 def plot_data(d):
   x = range(1,9)
-  #y1 = [d['c']['parallel'][i] for i in x]
+  y1 = [d['c']['parallel'][i] for i in x]
   y2 = [d['j']['parallel'][i] for i in x]
   
-  #plt.plot(x, y1, 'bs-', label='C')
+  plt.plot(x, y1, 'bs-', label='C')
   plt.plot(x, y2, 'g^-', label='Julia')
   plt.title("Parallel Runtime vs. Number of Cores")
   plt.xlabel("Number of Cores")
   plt.ylabel("Runtime (secs)")
+  plt.legend(loc='right')
   plt.show()
 
   x = range(1,9)
-  #y1 = [d['c']['serial_opt'] / d['c']['parallel'][i] for i in x]
+  y1 = [d['c']['serial_opt'] / d['c']['parallel'][i] for i in x]
   y2 = [d['j']['serial_opt'] / d['j']['parallel'][i] for i in x]
-  #plt.plot(x, y1, 'bs-', label='C')
+  plt.plot(x, y1, 'bs-', label='C')
   plt.plot(x, y2, 'g^-', label='Julia')
   plt.title("Parallel Speedup vs. Number of Cores")
   plt.xlabel("Number of Cores")
   plt.ylabel("Optimized Serial / Parallel Runtime")
+  plt.legend(loc='right')
   plt.show()
 
 def cleanup():
@@ -123,7 +125,7 @@ data = {
 }
 
 if __name__ == "__main__":
-  #collect_c_data(data)
+  collect_c_data(data)
   collect_j_data(data)
   stats_summary(data)
   plot_data(data)

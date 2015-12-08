@@ -1,0 +1,4 @@
+Performing 3 Sorting Tests on Array of Size 8388608
+Check 1
+	 Running Builtin Quick Sort...0.726593s
+	 Running Serial Merge Sort...
