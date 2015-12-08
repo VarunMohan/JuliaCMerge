@@ -40,7 +40,7 @@ def collect_c_data(d):
 def run_j_impl():
   global J_FN_O
 
-  call("julia ../merge/julia/MyBenchmarks.jl > " + J_FN_O, shell=True)
+  call("julia MyBenchmarks.jl > " + J_FN_O, shell=True)
 
 def read_j_output(d):
   global J_FN_O
@@ -63,10 +63,9 @@ def collect_j_data(d):
 
 def stats_summary(d):
   print d
-  for l in ['c']:#, 'j']:
+  for l in ['j']:
     lang = "Julia" if l == "j" else "C"
     print lang + " Implementation Results"
-    l = l.lower()
     for k in d[l].keys():
       if k != 'parallel':
         result = d[l][k]
@@ -79,21 +78,21 @@ def stats_summary(d):
 
 def plot_data(d):
   x = range(1,9)
-  y1 = [d['c']['parallel'][i] for i in x]
-  #y2 = [d['j']['parallel'][i] for i in x]
+  #y1 = [d['c']['parallel'][i] for i in x]
+  y2 = [d['j']['parallel'][i] for i in x]
   
-  plt.plot(x, y1, 'bs-', label='C')
-  #plt.plot(x, y2, 'g^-', label='Julia')
+  #plt.plot(x, y1, 'bs-', label='C')
+  plt.plot(x, y2, 'g^-', label='Julia')
   plt.title("Parallel Runtime vs. Number of Cores")
   plt.xlabel("Number of Cores")
   plt.ylabel("Runtime (secs)")
   plt.show()
 
   x = range(1,9)
-  y1 = [d['c']['serial_opt'] / d['c']['parallel'][i] for i in x]
-  #y2 = [d['j']['serial_opt'] / d['j']['parallel'][i] for i in x]
-  plt.plot(x, y1, 'bs-', label='C')
-  #plt.plot(x, y2, 'g^-', label='Julia')
+  #y1 = [d['c']['serial_opt'] / d['c']['parallel'][i] for i in x]
+  y2 = [d['j']['serial_opt'] / d['j']['parallel'][i] for i in x]
+  #plt.plot(x, y1, 'bs-', label='C')
+  plt.plot(x, y2, 'g^-', label='Julia')
   plt.title("Parallel Speedup vs. Number of Cores")
   plt.xlabel("Number of Cores")
   plt.ylabel("Optimized Serial / Parallel Runtime")
@@ -124,8 +123,8 @@ data = {
 }
 
 if __name__ == "__main__":
-  collect_c_data(data)
-  #collect_j_data(data)
+  #collect_c_data(data)
+  collect_j_data(data)
   stats_summary(data)
   plot_data(data)
   cleanup()
