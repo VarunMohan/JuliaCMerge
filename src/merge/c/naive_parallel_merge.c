@@ -29,10 +29,12 @@ static void merge_sort_helper(uint32_t *v, size_t lo, size_t hi, uint32_t *t) {
 }
 
 void naive_parallel_merge_sort(uint32_t* arr, uint32_t* arrend) {
-  uint32_t n = arrend - arr;
-  uint32_t *aux = (uint32_t*)malloc(sizeof(uint32_t) * (n)); //auxilliary memory for merge sort
+    uint32_t n = arrend - arr;
+    uint32_t *aux = (uint32_t*)malloc(sizeof(uint32_t) * (n)); //auxilliary memory for merge sort
 
-  merge_sort_helper(arr, 0, n - 1, aux);
+    memcpy(aux, arr, n * sizeof(*arr));
 
-  free(aux);
+    merge_sort_helper(arr, 0, n - 1, aux);
+
+    free(aux);
 }
